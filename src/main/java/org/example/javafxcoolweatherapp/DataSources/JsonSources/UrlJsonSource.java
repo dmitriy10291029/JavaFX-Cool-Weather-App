@@ -1,4 +1,4 @@
-package org.example.javafxcoolweatherapp.DataSources;
+package org.example.javafxcoolweatherapp.DataSources.JsonSources;
 
 import java.io.BufferedReader;
 import java.io.IOException;

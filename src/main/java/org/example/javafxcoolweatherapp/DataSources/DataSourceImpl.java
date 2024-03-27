@@ -5,7 +5,7 @@ import org.example.javafxcoolweatherapp.DataObjects.HourDataObject;
 
 import java.util.List;
 
-public class UrlOrSavedDataSource implements DataSource {
+public class DataSourceImpl implements DataSource {
     @Override
     public List<DayDataObject> getDayList(String city) {
         return null;
