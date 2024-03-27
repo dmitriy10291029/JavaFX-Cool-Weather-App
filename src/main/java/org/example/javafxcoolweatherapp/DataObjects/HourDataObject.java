@@ -1,11 +1,11 @@
-package org.example.javafxcoolweatherapp.DTOs;
+package org.example.javafxcoolweatherapp.DataObjects;
 
-public class HourDTO {
+public class HourDataObject {
     private final int hour;
     private final int temp;
     private final String description;
 
-    public HourDTO(int hour, int temp, String description) {
+    public HourDataObject(int hour, int temp, String description) {
         this.hour = hour;
         this.temp = temp;
         this.description = description;

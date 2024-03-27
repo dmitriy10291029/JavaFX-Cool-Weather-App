@@ -14,6 +14,6 @@ public class OpenWeatherAPICallBuilder implements WeatherAPICallBuilder {
     }
 
     private GeoData getGeoDataFromService() {
-
+        return null;
     }
 }

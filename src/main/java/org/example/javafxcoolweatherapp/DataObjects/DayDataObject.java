@@ -1,11 +1,11 @@
-package org.example.javafxcoolweatherapp.DTOs;
+package org.example.javafxcoolweatherapp.DataObjects;
 
-public class DayDTO {
+public class DayDataObject {
     private final String dayOfWeek;
     private final int temp;
     private final String description;
 
-    public DayDTO(String dayOfWeek, int temp, String description) {
+    public DayDataObject(String dayOfWeek, int temp, String description) {
         this.dayOfWeek = dayOfWeek;
         this.temp = temp;
         this.description = description;

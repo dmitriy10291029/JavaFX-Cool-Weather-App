@@ -1,18 +1,18 @@
 package org.example.javafxcoolweatherapp.DataSources;
 
-import org.example.javafxcoolweatherapp.DTOs.DayDTO;
-import org.example.javafxcoolweatherapp.DTOs.HourDTO;
+import org.example.javafxcoolweatherapp.DataObjects.DayDataObject;
+import org.example.javafxcoolweatherapp.DataObjects.HourDataObject;
 
 import java.util.List;
 
 public class UrlOrSavedDataSource implements DataSource {
     @Override
-    public List<DayDTO> getDayList(String city) {
+    public List<DayDataObject> getDayList(String city) {
         return null;
     }
 
     @Override
-    public List<HourDTO> getHourList(String city) {
+    public List<HourDataObject> getHourList(String city) {
         return null;
     }
 
