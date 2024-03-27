@@ -7,8 +7,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class UrlJsonSource implements JsonSource {
-    static private final String API_KEY = "";
-    static private final String WEATHER_SERVICE_URL = "http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=";
 
     private String getStringUrlContent(String urlAddress) {
         StringBuilder content = new StringBuilder();
