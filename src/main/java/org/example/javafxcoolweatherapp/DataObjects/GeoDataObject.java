@@ -1,19 +1,19 @@
 package org.example.javafxcoolweatherapp.DataObjects;
 
 public class GeoDataObject {
-    private final int lat;
-    private final int lon;
+    private final double lat;
+    private final double lon;
 
-    public GeoDataObject(int lat, int lon) {
+    public GeoDataObject(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
     }
 
-    public int getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public int getLon() {
+    public double getLon() {
         return lon;
     }
 }
