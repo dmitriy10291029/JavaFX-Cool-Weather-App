@@ -5,9 +5,6 @@ import org.example.javafxcoolweatherapp.DTOs.HourDTO;
 
 import java.util.List;
 
-/**
- * Внешний интерфейс для взаимодействия с данными
- */
 public interface DataSource {
     List<DayDTO> getDayList(final String city);
     List<HourDTO> getHourList(final String city);
