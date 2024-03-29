@@ -31,4 +31,14 @@ public class HourlyForecastDataObject {
     public int getAmountOfDays() {
         return getAmountOfTimeStamps() / 24;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        for (var item : timeStamps) {
+            sb.append(item.toString()).append("\n");
+        }
+        return sb.append("}").toString();
+    }
 }

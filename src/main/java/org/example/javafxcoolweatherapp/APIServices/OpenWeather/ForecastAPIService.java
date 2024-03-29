@@ -3,10 +3,6 @@ package org.example.javafxcoolweatherapp.APIServices.OpenWeather;
 import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPIService;
 import org.example.javafxcoolweatherapp.DataObjects.GeoDataObject;
 import org.example.javafxcoolweatherapp.DataObjects.HourlyForecastDataObject;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class ForecastAPIService extends AbstractCacheableSimpleAPIService<HourlyForecastDataObject> {
     private final GeoAPIService geoAPIService;
@@ -27,16 +23,6 @@ public class ForecastAPIService extends AbstractCacheableSimpleAPIService<Hourly
 
     @Override
     protected HourlyForecastDataObject parseJSONResponse(String data) {
-        if (data == null) {
-            return null;
-        }
-        try {
-            JSONParser parser = new JSONParser();
-            JSONArray citiesArray = (JSONArray) parser.parse(data);
-            JSONObject firstCity = (JSONObject) citiesArray.get(0);
-            return null;
-        } catch (ParseException e) {
-            return null;
-        }
+        return DataObjectsJSONParser.parseHourlyForecastData(data);
     }
 }

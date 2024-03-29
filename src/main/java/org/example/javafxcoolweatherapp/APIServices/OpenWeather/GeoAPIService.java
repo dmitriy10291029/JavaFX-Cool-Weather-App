@@ -2,10 +2,6 @@ package org.example.javafxcoolweatherapp.APIServices.OpenWeather;
 
 import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPIService;
 import org.example.javafxcoolweatherapp.DataObjects.GeoDataObject;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class GeoAPIService extends AbstractCacheableSimpleAPIService<GeoDataObject> {
     public GeoAPIService(String APIKey) {
@@ -21,16 +17,6 @@ public class GeoAPIService extends AbstractCacheableSimpleAPIService<GeoDataObje
 
     @Override
     protected GeoDataObject parseJSONResponse(String data) {
-        if (data == null) {
-            return null;
-        }
-        try {
-            JSONParser parser = new JSONParser();
-            JSONArray citiesArray = (JSONArray) parser.parse(data);
-            JSONObject firstCity = (JSONObject) citiesArray.get(0);
-            return new GeoDataObject((double) firstCity.get("lat"), (double) firstCity.get("lon"));
-        } catch (ParseException e) {
-            return null;
-        }
+        return DataObjectsJSONParser.parseGeoData(data);
     }
 }

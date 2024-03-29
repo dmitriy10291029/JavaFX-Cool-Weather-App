@@ -61,4 +61,18 @@ public class TimeStampDataObject {
     public long getSunsetUnixUTC() {
         return sunsetUnixUTC;
     }
+
+    @Override
+    public String toString() {
+        String divider = "; ";
+        return "{" +
+                forecastTimeUnixUTC + divider +
+                feelsLikeCelsius + divider +
+                pressureHPa + divider +
+                humidityPercents + divider +
+                weatherDescription + divider +
+                windSpeedMetersSec + divider +
+                sunriseUnixTimeUTC + divider +
+                sunsetUnixUTC + "}";
+    }
 }
