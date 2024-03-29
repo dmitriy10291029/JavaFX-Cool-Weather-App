@@ -1,10 +1,10 @@
 package org.example.javafxcoolweatherapp.DataObjects;
 
-public class GeoDataObject {
+public class GeoData {
     private final double lat;
     private final double lon;
 
-    public GeoDataObject(double lat, double lon) {
+    public GeoData(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
     }

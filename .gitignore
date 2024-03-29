@@ -1,5 +1,5 @@
-open-weather-forecast-cache/
-
+open-weather-hourly-cache/
+open-weather-three-hour-cache/
 open-weather-geo-cache/
 
 target/

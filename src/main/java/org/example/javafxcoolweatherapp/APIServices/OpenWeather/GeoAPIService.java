@@ -1,11 +1,11 @@
 package org.example.javafxcoolweatherapp.APIServices.OpenWeather;
 
 import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPIService;
-import org.example.javafxcoolweatherapp.DataObjects.GeoDataObject;
+import org.example.javafxcoolweatherapp.DataObjects.GeoData;
 
 import java.io.IOException;
 
-public class GeoAPIService extends AbstractCacheableSimpleAPIService<GeoDataObject> {
+public class GeoAPIService extends AbstractCacheableSimpleAPIService<GeoData> {
     public GeoAPIService(String APIKey) {
         super(APIKey, "open-weather-geo-cache");
     }
@@ -18,7 +18,7 @@ public class GeoAPIService extends AbstractCacheableSimpleAPIService<GeoDataObje
     }
 
     @Override
-    protected GeoDataObject parseJSONResponse(String data) throws IOException {
+    protected GeoData parseJSONResponse(String data) throws IOException {
         return DataObjectsJSONParser.parseGeoData(data);
     }
 }

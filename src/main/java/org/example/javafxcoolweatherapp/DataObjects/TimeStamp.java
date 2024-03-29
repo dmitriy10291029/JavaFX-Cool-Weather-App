@@ -1,6 +1,6 @@
 package org.example.javafxcoolweatherapp.DataObjects;
 
-public class TimeStampDataObject {
+public class TimeStamp {
     private final long forecastTimeUnixUTC;
     private final double feelsLikeCelsius;
     private final double pressureHPa;
@@ -11,14 +11,14 @@ public class TimeStampDataObject {
     private final long sunriseUnixTimeUTC;
     private final long sunsetUnixUTC;
 
-    public TimeStampDataObject(long forecastTimeUnixUTC,
-                               double feelsLikeCelsius,
-                               double pressureHPa,
-                               double humidityPercents,
-                               String weatherDescription,
-                               double windSpeedMetersSec,
-                               long sunriseUnixTimeUTC,
-                               long sunsetUnixUTC) {
+    public TimeStamp(long forecastTimeUnixUTC,
+                     double feelsLikeCelsius,
+                     double pressureHPa,
+                     double humidityPercents,
+                     String weatherDescription,
+                     double windSpeedMetersSec,
+                     long sunriseUnixTimeUTC,
+                     long sunsetUnixUTC) {
 
         this.forecastTimeUnixUTC = forecastTimeUnixUTC;
         this.feelsLikeCelsius = feelsLikeCelsius;
