@@ -1,23 +1,33 @@
 package org.example.javafxcoolweatherapp.Files;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SimpleFileManager implements FileManager {
-    private static final String BASE_WORKING_DIR = "./savings/";
-    private final String workingDir;
+    private static final String BASE_WORKING_DIR = ".";
+    private final Path workingDir;
 
-    public SimpleFileManager() {
+    public SimpleFileManager() throws IOException {
         this(null);
     }
 
-    public SimpleFileManager(String workingDir) {
-        if (workingDir == null) {
-            this.workingDir = BASE_WORKING_DIR;
+    public SimpleFileManager(String workingDirName) throws IOException {
+        if (workingDirName == null) {
+            workingDir = Paths.get(BASE_WORKING_DIR);
         } else {
-            this.workingDir = BASE_WORKING_DIR + workingDir + "/";
+            workingDir = Paths.get(BASE_WORKING_DIR, workingDirName);
+        }
+
+        if (!Files.exists(workingDir)) {
+            Files.createDirectory(workingDir);
         }
     }
 
@@ -38,7 +48,7 @@ public class SimpleFileManager implements FileManager {
         }
     }
 
-    public boolean deleteFile(String fileName, String data) {
+    public boolean deleteFile(String fileName) {
         try {
             return Files.deleteIfExists(getFile(fileName));
         } catch (IOException e) {
@@ -46,7 +56,19 @@ public class SimpleFileManager implements FileManager {
         }
     }
 
+    @Override
+    public List<String> getFilesList() {
+        try (Stream<Path> stream = Files.list(workingDir)) {
+            return stream
+                .map(Path::getFileName)
+                .map(Path::toString)
+                .collect(Collectors.toList());
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
+    }
+
     private Path getFile(String fileName) {
-        return Paths.get(workingDir + fileName);
+        return Paths.get(workingDir.getFileName().toString(), fileName);
     }
 }

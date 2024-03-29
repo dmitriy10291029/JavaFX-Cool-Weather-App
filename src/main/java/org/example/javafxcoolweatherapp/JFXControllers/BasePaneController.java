@@ -2,6 +2,7 @@ package org.example.javafxcoolweatherapp.JFXControllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.example.javafxcoolweatherapp.APIServices.OpenWeatherForecastAPIService;
 
 public class BasePaneController {
     @FXML
@@ -9,6 +10,7 @@ public class BasePaneController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+        OpenWeatherForecastAPIService apiService = new OpenWeatherForecastAPIService("");
+        welcomeText.setText(apiService.getGeoData("Москва").toString());
     }
 }
