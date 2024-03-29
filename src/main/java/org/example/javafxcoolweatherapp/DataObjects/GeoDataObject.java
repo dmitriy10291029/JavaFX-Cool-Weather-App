@@ -16,4 +16,9 @@ public class GeoDataObject {
     public double getLon() {
         return lon;
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%f, %f)", lat, lon);
+    }
 }
