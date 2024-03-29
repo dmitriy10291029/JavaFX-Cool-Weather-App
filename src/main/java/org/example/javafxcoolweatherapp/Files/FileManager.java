@@ -1,11 +1,12 @@
 package org.example.javafxcoolweatherapp.Files;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface FileManager {
-    boolean saveDataToFile(String fileName, String data);
+    void saveDataToFile(String fileName, String data) throws IOException;
 
-    String readData(String fileName);
+    String readData(String fileName) throws IOException;
 
     boolean deleteFile(String fileName);
 

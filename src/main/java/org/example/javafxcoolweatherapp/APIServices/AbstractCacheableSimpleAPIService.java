@@ -28,37 +28,53 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
         }
     }
 
-    abstract protected String getResponseByURL(String parameter);
+    abstract protected String getResponseByURL(String parameter) throws IOException;
 
-    abstract protected DataObject parseJSONResponse(String data);
+    abstract protected DataObject parseJSONResponse(String data) throws IOException;
 
     @Override
-    public DataObject getData(String parameter) {
-        DataObject cachedGeoData = getCachedData(parameter);
-        if (cachedGeoData != null) {
-            return cachedGeoData;
-        } else {
-            return getDataByURL(parameter);
-        }
-    }
+    public DataObject getData(String parameter) throws IOException {
+        try { return getCachedData(parameter);
 
-    public DataObject getDataByURL(String parameter) {
-        String response = getResponseByURL(parameter);
-        DataObject newData = parseJSONResponse(response);
-        if (newData != null) {
-            if (cacheAccess) {
-                fileManager.saveDataToFile(parameter, response);
+        } catch (IOException cacheEx) {
+            try { return getDataByURL(parameter);
+
+            } catch (IOException urlEx) {
+                IOException e = new IOException("API Service did not get data from cache and url.", urlEx);
+                e.addSuppressed(cacheEx);
+                throw e;
             }
-            return newData;
         }
-        return null;
     }
 
-    public DataObject getCachedData(String parameter) {
+    public DataObject getDataByURL(String parameter) throws IOException {
+        try {
+            String response = getResponseByURL(parameter);
+            DataObject newData;
+
+            try { newData = parseJSONResponse(response);
+            } catch (IOException e) {
+                throw new IOException("Data was got, but it can not be parsed.", e);
+            }
+
+            if (cacheAccess) {
+                try { fileManager.saveDataToFile(parameter, response);
+                } catch (IOException ignore) { }
+            }
+
+            return newData;
+
+        } catch (IOException ioe) {
+            throw new IOException("API Service did not get data from URL Manager", ioe);
+        }
+    }
+
+    public DataObject getCachedData(String parameter) throws IOException {
         if (cacheAccess && fileManager.getFilesList().contains(parameter)) {
             return parseJSONResponse(fileManager.readData(parameter));
+        } else {
+            throw new IOException("Can not get data from cache.");
         }
-        return null;
     }
 
     public List<String> getRecentList() {

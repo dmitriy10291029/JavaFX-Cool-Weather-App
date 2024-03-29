@@ -7,7 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class SimpleURLManager implements URLManager {
-    public String getData(String urlAddress) {
+    public String getData(String urlAddress) throws IOException {
         StringBuilder content = new StringBuilder();
 
         try {
@@ -21,8 +21,8 @@ public class SimpleURLManager implements URLManager {
                     content.append('\n');
                 }
             }
-        } catch (IOException e) {
-            return null;
+        } catch (Exception e) {
+            throw new IOException("URL Manager can not get data", e);
         }
 
         return content.toString();

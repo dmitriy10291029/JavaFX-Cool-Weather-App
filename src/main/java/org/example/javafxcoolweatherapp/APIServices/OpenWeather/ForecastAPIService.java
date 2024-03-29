@@ -4,6 +4,8 @@ import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPISe
 import org.example.javafxcoolweatherapp.DataObjects.GeoDataObject;
 import org.example.javafxcoolweatherapp.DataObjects.HourlyForecastDataObject;
 
+import java.io.IOException;
+
 public class ForecastAPIService extends AbstractCacheableSimpleAPIService<HourlyForecastDataObject> {
     private final GeoAPIService geoAPIService;
 
@@ -13,7 +15,7 @@ public class ForecastAPIService extends AbstractCacheableSimpleAPIService<Hourly
     }
 
     @Override
-    protected String getResponseByURL(String parameter) {
+    protected String getResponseByURL(String parameter) throws IOException {
         GeoDataObject geoData = geoAPIService.getData(parameter);
         return urlManager.getData(String.format(
                 "https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=%f&lon=%f&appid=%s",
@@ -22,7 +24,7 @@ public class ForecastAPIService extends AbstractCacheableSimpleAPIService<Hourly
     }
 
     @Override
-    protected HourlyForecastDataObject parseJSONResponse(String data) {
+    protected HourlyForecastDataObject parseJSONResponse(String data) throws IOException {
         return DataObjectsJSONParser.parseHourlyForecastData(data);
     }
 }

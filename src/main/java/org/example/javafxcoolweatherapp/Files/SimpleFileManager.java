@@ -1,8 +1,6 @@
 package org.example.javafxcoolweatherapp.Files;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,20 +29,19 @@ public class SimpleFileManager implements FileManager {
         }
     }
 
-    public boolean saveDataToFile(String fileName, String data) {
+    public void saveDataToFile(String fileName, String data) throws IOException {
         try {
             Files.writeString(getFile(fileName), data);
-            return true;
         } catch (IOException e) {
-            return false;
+            throw new IOException("File manager can not save to file.", e);
         }
     }
 
-    public String readData(String fileName) {
+    public String readData(String fileName) throws IOException {
         try {
             return Files.readString(getFile(fileName));
         } catch (Exception e) {
-            return null;
+            throw new IOException("File manager can not read the file.", e);
         }
     }
 

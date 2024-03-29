@@ -8,31 +8,37 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataObjectsJSONParser {
     private static final JSONParser parser = new JSONParser();
 
-    public static GeoDataObject parseGeoData(String data) {
+    public static GeoDataObject parseGeoData(String data) throws IOException {
         if (data == null) {
-            return null;
+            throw new IOException("Invalid data for parsing.");
         }
+
         try {
             JSONArray citiesArray = (JSONArray) parser.parse(data);
             JSONObject firstCity = (JSONObject) citiesArray.get(0);
 
-            return new GeoDataObject((double) firstCity.get("lat"), (double) firstCity.get("lon"));
+            return new GeoDataObject(
+                    (double) firstCity.get("lat"),
+                    (double) firstCity.get("lon")
+            );
 
-        } catch (ParseException e) {
-            return null;
+        } catch (Exception e) {
+            throw new IOException("Invalid data for parsing.", e);
         }
     }
 
-    public static HourlyForecastDataObject parseHourlyForecastData(String data) {
+    public static HourlyForecastDataObject parseHourlyForecastData(String data)
+            throws IOException {
+
         if (data == null) {
-            System.out.println("fuck");
-            return null;
+            throw new IOException("Invalid data for parsing.");
         }
         try {
             JSONObject fullResponse = (JSONObject) parser.parse(data);
@@ -59,9 +65,8 @@ public class DataObjectsJSONParser {
 
             return new HourlyForecastDataObject(tsList);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+        } catch (Exception e) {
+            throw new IOException("Invalid data for parsing.", e);
         }
     }
 }

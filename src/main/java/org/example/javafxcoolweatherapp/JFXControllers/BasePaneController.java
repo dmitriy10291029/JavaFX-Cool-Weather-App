@@ -7,6 +7,8 @@ import org.example.javafxcoolweatherapp.APIServices.OpenWeather.GeoAPIService;
 import org.example.javafxcoolweatherapp.APIServices.SimpleAPIService;
 import org.example.javafxcoolweatherapp.DataObjects.HourlyForecastDataObject;
 
+import java.io.IOException;
+
 public class BasePaneController {
     @FXML
     private Label welcomeText;
@@ -14,12 +16,13 @@ public class BasePaneController {
     @FXML
     protected void onHelloButtonClick() {
         ForecastAPIService forecastAPIService = new ForecastAPIService("");
-        HourlyForecastDataObject forecast = forecastAPIService.getData("Moscow");
-        if (forecast == null) {
-            welcomeText.setText("Ошибка");
-        } else {
+        try {
+            HourlyForecastDataObject forecast = forecastAPIService.getData("Moscow");
             System.out.println(forecast);
             welcomeText.setText("Успех");
+
+        } catch (IOException e) {
+            welcomeText.setText("Ошибка");
         }
     }
 }
