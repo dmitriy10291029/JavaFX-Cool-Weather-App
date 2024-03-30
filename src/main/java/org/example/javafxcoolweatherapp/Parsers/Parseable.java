@@ -1,4 +1,4 @@
-package org.example.javafxcoolweatherapp.APIServices.OpenWeather;
+package org.example.javafxcoolweatherapp.Parsers;
 
 @FunctionalInterface
 public interface Parseable<R> {

@@ -1,4 +1,4 @@
-package org.example.javafxcoolweatherapp.APIServices.OpenWeather;
+package org.example.javafxcoolweatherapp.Parsers;
 
 import org.example.javafxcoolweatherapp.DataObjects.GeoData;
 import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;

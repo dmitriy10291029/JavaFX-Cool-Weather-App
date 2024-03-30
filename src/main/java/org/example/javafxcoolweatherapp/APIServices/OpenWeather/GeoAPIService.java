@@ -2,6 +2,7 @@ package org.example.javafxcoolweatherapp.APIServices.OpenWeather;
 
 import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPIService;
 import org.example.javafxcoolweatherapp.DataObjects.GeoData;
+import org.example.javafxcoolweatherapp.Parsers.DataObjectsJSONParser;
 
 import java.io.IOException;
 
