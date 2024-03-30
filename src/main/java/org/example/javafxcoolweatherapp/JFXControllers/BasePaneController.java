@@ -2,9 +2,11 @@ package org.example.javafxcoolweatherapp.JFXControllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.example.javafxcoolweatherapp.APIServices.OpenWeather.CurrentForecastAPIService;
 import org.example.javafxcoolweatherapp.APIServices.OpenWeather.GeoAPIService;
 import org.example.javafxcoolweatherapp.APIServices.OpenWeather.HourlyForecastAPIService;
 import org.example.javafxcoolweatherapp.APIServices.OpenWeather.ThreeHourForecastAPIService;
+import org.example.javafxcoolweatherapp.DataObjects.CurrentForecast;
 import org.example.javafxcoolweatherapp.DataObjects.HourlyForecast;
 import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 
@@ -16,13 +18,19 @@ public class BasePaneController {
 
     @FXML
     protected void onHelloButtonClick() {
-        String APIKey = "5444a50a846c6b05227cf5d443fa903c";
-        GeoAPIService geoAPI = new GeoAPIService(APIKey);
-        ThreeHourForecastAPIService forecastAPIService =
-                new ThreeHourForecastAPIService(APIKey, geoAPI);
+        String APIKey = "";
         try {
-            ThreeHourForecast forecast = forecastAPIService.getData("Moscow");
-            System.out.println(forecast);
+            GeoAPIService geoAPI = new GeoAPIService(APIKey);
+            ThreeHourForecastAPIService threeHourforecastAPIService =
+                    new ThreeHourForecastAPIService(APIKey, geoAPI);
+            ThreeHourForecast threeHourforecast = threeHourforecastAPIService.getData("Moscow");
+            System.out.println(threeHourforecast);
+
+            CurrentForecastAPIService currentForecastAPIService =
+                    new CurrentForecastAPIService(APIKey, geoAPI);
+            CurrentForecast currentForecast = currentForecastAPIService.getData("Moscow");
+            System.out.println(currentForecast);
+
             welcomeText.setText("Успех");
 
         } catch (IOException e) {

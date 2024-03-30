@@ -1,6 +1,7 @@
 open-weather-hourly-cache/
 open-weather-three-hour-cache/
 open-weather-geo-cache/
+open-weather-current-cache/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -26,6 +26,6 @@ public class CurrentForecastAPIService extends AbstractCacheableSimpleAPIService
 
     @Override
     protected CurrentForecast parseJSONResponseImpl(String data) throws IOException {
-        return new CurrentForecast(DataObjectsJSONParser.parseTimeStampsList(data));
+        return new CurrentForecast(DataObjectsJSONParser.parseCurrentWeather(data));
     }
 }

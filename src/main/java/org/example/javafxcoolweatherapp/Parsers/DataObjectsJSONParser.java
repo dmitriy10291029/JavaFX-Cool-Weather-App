@@ -62,4 +62,29 @@ public class DataObjectsJSONParser {
             return tsList;
         });
     }
+
+    public static List<TimeStamp> parseCurrentWeather(String data) throws IOException {
+        return handleParseExceptions(data, data1 -> {
+            JSONObject timeStamp = (JSONObject) parser.parse(data1);
+
+            List<TimeStamp> tsList = new ArrayList<>();
+            TimeStampFactory timeStampFactory = new TimeStampFactory();
+
+            JSONObject main = (JSONObject) timeStamp.get("main");
+            JSONObject weather = (JSONObject)((JSONArray) timeStamp.get("weather")).get(0);
+            JSONObject wind = (JSONObject) timeStamp.get("wind");
+
+            tsList.add(timeStampFactory
+                    .setForecastTimeUnixUTC((long) timeStamp.get("dt"))
+                    .setFeelsLikeCelsius((double) main.get("feels_like"))
+                    .setPressureHPa((int) (long) main.get("pressure"))
+                    .setHumidityPercents((int) (long) main.get("humidity"))
+                    .setWeatherDescription((String) weather.get("description"))
+                    .setFeelsLikeCelsius((double) wind.get("speed"))
+                    .create()
+            );
+
+            return tsList;
+        });
+    }
 }
