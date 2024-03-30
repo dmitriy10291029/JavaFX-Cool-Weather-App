@@ -49,16 +49,21 @@ public class DataObjectsJSONParser {
                 JSONObject weather = (JSONObject)((JSONArray) timeStamp.get("weather")).get(0);
                 JSONObject wind = (JSONObject) timeStamp.get("wind");
 
-                TimeStamp timeStampDataObject = new TimeStamp(
-                        (long) timeStamp.get("dt"),
-                        (double) main.get("feels_like"),
-                        (double)(long) main.get("pressure"),
-                        (double)(long) main.get("humidity"),
-                        (String) weather.get("description"),
-                        (double) wind.get("speed"),
-                        (long) timeStamp.get("sunrise"),
-                        (long) timeStamp.get("sunset")
-                );
+                long forecastTimeUnixUTC    = (long)        timeStamp.get("dt");
+                double feelsLikeCelsius     = (double)      main.get("feels_like");
+                int pressureHPa             = (int) (long)  main.get("pressure");
+                int humidityPercents        = (int) (long)  main.get("humidity");
+                String weatherDescription   = (String)      weather.get("description");
+                double windSpeedMetersSec   = (double)      wind.get("speed");
+
+                tsList.add(new TimeStamp(
+                                forecastTimeUnixUTC,
+                                feelsLikeCelsius,
+                                pressureHPa,
+                                humidityPercents,
+                                weatherDescription,
+                                windSpeedMetersSec
+                ));
             }
 
             return tsList;

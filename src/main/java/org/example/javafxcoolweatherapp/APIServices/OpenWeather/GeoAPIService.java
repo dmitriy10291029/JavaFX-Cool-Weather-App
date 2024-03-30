@@ -18,7 +18,7 @@ public class GeoAPIService extends AbstractCacheableSimpleAPIService<GeoData> {
     }
 
     @Override
-    protected GeoData parseJSONResponse(String data) throws IOException {
+    protected GeoData parseJSONResponseImpl(String data) throws IOException {
         return DataObjectsJSONParser.parseGeoData(data);
     }
 }

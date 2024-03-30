@@ -26,9 +26,7 @@ public class HourlyForecastAPIService
     }
 
     @Override
-    protected HourlyForecast parseJSONResponse(String data) throws IOException {
-        return new HourlyForecast(
-                DataObjectsJSONParser.parseTimeStampsList(data)
-        );
+    protected HourlyForecast parseJSONResponseImpl(String data) throws IOException {
+        return new HourlyForecast(DataObjectsJSONParser.parseTimeStampsList(data));
     }
 }

@@ -20,15 +20,13 @@ public class ThreeHourForecastAPIService
     protected String getResponseByURL(String parameter) throws IOException {
         GeoData geoData = geoAPIService.getData(parameter);
         return urlManager.getData(String.format(
-                "https://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&appid=%s",
+                "https://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&units=metric&appid=%s",
                 geoData.getLat(), geoData.getLon(), APIKey
         ));
     }
 
     @Override
-    protected ThreeHourForecast parseJSONResponse(String data) throws IOException {
-        return new ThreeHourForecast(
-                DataObjectsJSONParser.parseTimeStampsList(data)
-        );
+    protected ThreeHourForecast parseJSONResponseImpl(String data) throws IOException {
+        return new ThreeHourForecast(DataObjectsJSONParser.parseTimeStampsList(data));
     }
 }

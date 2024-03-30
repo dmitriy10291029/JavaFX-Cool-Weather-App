@@ -16,7 +16,7 @@ public class BasePaneController {
 
     @FXML
     protected void onHelloButtonClick() {
-        String APIKey = "";
+        String APIKey = "5444a50a846c6b05227cf5d443fa903c";
         GeoAPIService geoAPI = new GeoAPIService(APIKey);
         ThreeHourForecastAPIService forecastAPIService =
                 new ThreeHourForecastAPIService(APIKey, geoAPI);
@@ -27,7 +27,7 @@ public class BasePaneController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            welcomeText.setText("Ошибка");
+            welcomeText.setText(e.getMessage());
         }
     }
 }

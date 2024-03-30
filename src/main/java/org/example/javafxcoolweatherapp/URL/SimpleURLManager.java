@@ -22,7 +22,7 @@ public class SimpleURLManager implements URLManager {
                 }
             }
         } catch (Exception e) {
-            throw new IOException("URL Manager can not get data", e);
+            throw new IOException("URL Manager can not get data from: " + urlAddress, e);
         }
 
         return content.toString();

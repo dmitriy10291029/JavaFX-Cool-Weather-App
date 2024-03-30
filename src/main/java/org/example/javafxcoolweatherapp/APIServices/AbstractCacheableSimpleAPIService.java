@@ -1,5 +1,7 @@
 package org.example.javafxcoolweatherapp.APIServices;
 
+import org.example.javafxcoolweatherapp.APIServices.OpenWeather.DataObjectsJSONParser;
+import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 import org.example.javafxcoolweatherapp.Files.FileManager;
 import org.example.javafxcoolweatherapp.Files.SimpleFileManager;
 import org.example.javafxcoolweatherapp.URL.SimpleURLManager;
@@ -30,7 +32,15 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
 
     abstract protected String getResponseByURL(String parameter) throws IOException;
 
-    abstract protected DataObject parseJSONResponse(String data) throws IOException;
+    abstract protected DataObject parseJSONResponseImpl(String data) throws IOException;
+
+    public DataObject parseJSONResponse(String data) throws IOException {
+        try {
+            return parseJSONResponseImpl(data);
+        } catch (Exception e) {
+            throw new IOException("Exception by parsing data.", e);
+        }
+    }
 
     @Override
     public DataObject getData(String parameter) throws IOException {
