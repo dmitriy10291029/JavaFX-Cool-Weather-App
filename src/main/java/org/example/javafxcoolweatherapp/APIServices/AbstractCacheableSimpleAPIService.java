@@ -1,7 +1,5 @@
 package org.example.javafxcoolweatherapp.APIServices;
 
-import org.example.javafxcoolweatherapp.APIServices.OpenWeather.DataObjectsJSONParser;
-import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 import org.example.javafxcoolweatherapp.Files.FileManager;
 import org.example.javafxcoolweatherapp.Files.SimpleFileManager;
 import org.example.javafxcoolweatherapp.URL.SimpleURLManager;
