@@ -13,7 +13,7 @@ import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 
 import java.io.IOException;
 
-public final class BasePaneController {
+public final class JavaFXController {
     @FXML
     private TextField cityNameField;
     @FXML
