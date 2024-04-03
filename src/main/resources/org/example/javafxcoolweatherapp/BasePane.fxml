@@ -73,19 +73,19 @@
       <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="160.0" prefWidth="800.0" spacing="5.0" style="-fx-background-color: ddd;"
             BorderPane.alignment="TOP_CENTER">
-         <VBox fx:id="day1Box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+         <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: fff; -fx-background-radius: 10;">
-            <Label fx:id="day1Date" text="Date 1" alignment="CENTER">
+            <Label fx:id="day1Date" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0"/>
                </font>
             </Label>
-            <Label fx:id="day1Temp" prefHeight="64.0" prefWidth="103.0" text="+10" alignment="CENTER">
+            <Label fx:id="day1Temp" prefHeight="64.0" prefWidth="103.0" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
-            <Label fx:id="day1Desc" prefWidth="134.0" text="Weather description" alignment="CENTER">
+            <Label fx:id="day1Desc" prefWidth="134.0" alignment="CENTER">
                <font>
                   <Font size="14.0"/>
                </font>
@@ -93,17 +93,17 @@
          </VBox>
          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: fff; -fx-background-radius: 10;">
-            <Label fx:id="day2Date" text="Date 1" alignment="CENTER">
+            <Label fx:id="day2Date" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0"/>
                </font>
             </Label>
-            <Label fx:id="day2Temp" prefHeight="64.0" prefWidth="103.0" text="+10" alignment="CENTER">
+            <Label fx:id="day2Temp" prefHeight="64.0" prefWidth="103.0" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
-            <Label fx:id="day2Desc" prefWidth="134.0" text="Weather description" alignment="CENTER">
+            <Label fx:id="day2Desc" prefWidth="134.0" alignment="CENTER">
                <font>
                   <Font size="14.0"/>
                </font>
@@ -111,17 +111,17 @@
          </VBox>
          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: fff; -fx-background-radius: 10;">
-            <Label fx:id="day3Date" text="Date 1" alignment="CENTER">
+            <Label fx:id="day3Date" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0"/>
                </font>
             </Label>
-            <Label fx:id="day3Temp" prefHeight="64.0" prefWidth="103.0" text="+10" alignment="CENTER">
+            <Label fx:id="day3Temp" prefHeight="64.0" prefWidth="103.0" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
-            <Label fx:id="day3Desc" prefWidth="134.0" text="Weather description" alignment="CENTER">
+            <Label fx:id="day3Desc" prefWidth="134.0" alignment="CENTER">
                <font>
                   <Font size="14.0"/>
                </font>
@@ -129,17 +129,17 @@
          </VBox>
          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: fff; -fx-background-radius: 10;">
-            <Label fx:id="day4Date" text="Date 1" alignment="CENTER">
+            <Label fx:id="day4Date" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0"/>
                </font>
             </Label>
-            <Label fx:id="day4Temp" prefHeight="64.0" prefWidth="103.0" text="+10" alignment="CENTER">
+            <Label fx:id="day4Temp" prefHeight="64.0" prefWidth="103.0" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
-            <Label fx:id="day4Desc" prefWidth="134.0" text="Weather description" alignment="CENTER">
+            <Label fx:id="day4Desc" prefWidth="134.0" alignment="CENTER">
                <font>
                   <Font size="14.0"/>
                </font>
@@ -147,17 +147,17 @@
          </VBox>
          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: fff; -fx-background-radius: 10;">
-            <Label fx:id="day5Date" text="Date 1" alignment="CENTER">
+            <Label fx:id="day5Date" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0"/>
                </font>
             </Label>
-            <Label fx:id="day5Temp" prefHeight="64.0" prefWidth="103.0" text="+10" alignment="CENTER">
+            <Label fx:id="day5Temp" prefHeight="64.0" prefWidth="103.0" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
-            <Label fx:id="day5Desc" prefWidth="134.0" text="Weather description" alignment="CENTER">
+            <Label fx:id="day5Desc" prefWidth="134.0" alignment="CENTER">
                <font>
                   <Font size="14.0"/>
                </font>
@@ -169,10 +169,10 @@
         
     </center>
    <center>
-      <VBox fx:id="centerPaneVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="380.0"
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="380.0"
             minWidth="400.0" spacing="5.0" style="-fx-background-color: fff; -fx-background-radius: 10;"
             BorderPane.alignment="CENTER">
-         <Label fx:id="cityName" text="CityName" textAlignment="CENTER">
+         <Label fx:id="cityName" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="32.0"/>
             </font>
@@ -182,18 +182,18 @@
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </VBox.margin>
             <Circle fill="#ffffff69" radius="100.0" stroke="#dddddd" strokeType="INSIDE" strokeWidth="10.0"/>
-            <Label fx:id="temp" text="+10" textAlignment="CENTER">
+            <Label fx:id="temp" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="96.0"/>
                </font>
             </Label>
          </StackPane>
-         <Label fx:id="feelsLike" text="Feels like: ..." textAlignment="CENTER">
+         <Label fx:id="feelsLike" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="18.0"/>
             </font>
          </Label>
-         <Label fx:id="weatherDescription" text="Weather Description" textAlignment="CENTER">
+         <Label fx:id="weatherDescription" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="18.0"/>
             </font>
@@ -266,7 +266,7 @@
                <Font name="System Bold" size="12.0"/>
             </font>
          </Label>
-         <Label fx:id="updateDate" text="Time" textFill="WHITE">
+         <Label fx:id="updateDate" textFill="WHITE">
             <font>
                <Font name="System Bold" size="12.0"/>
             </font>

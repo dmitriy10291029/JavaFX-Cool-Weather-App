@@ -43,6 +43,10 @@ public abstract class AbstractForecast {
         return getAmountOfTimeStamps() * stampsPerDay / 24;
     }
 
+    public int getStampsPerDay() {
+        return stampsPerDay;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

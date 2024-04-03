@@ -2,13 +2,17 @@ package org.example.javafxcoolweatherapp.JFXControllers;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPIService;
+import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public final class TableAbstractFactory {
     public static ArrayList<HourlyTableRow> createHourlyTable(final GridPane hourlyGridPane) {
-        Font font = new Font(20.0);
+        Font font = new Font(18.0);
         ArrayList<HourlyTableRow> table = new ArrayList<>();
 
         for (int row = 0; row < 8; row++) {
@@ -27,7 +31,7 @@ public final class TableAbstractFactory {
     }
 
     public static ArrayList<DetailsTableRow> createDetailsTable(final GridPane detailsGridPane) {
-        Font font = new Font(20.0);
+        Font font = new Font(12.0);
         ArrayList<DetailsTableRow> table = new ArrayList<>();
         String[] paramNameList = {"Temperature", "Feels like", "Pressure", "Humidity", "Wind speed"};
 
@@ -46,7 +50,10 @@ public final class TableAbstractFactory {
         return table;
     }
 
-    public static ArrayList<RecentCitiesTableRow> createRecentCitiesTable(final GridPane recentCitiesGridPane) {
+    public static ArrayList<RecentCitiesTableRow> createRecentCitiesTable(
+            final GridPane recentCitiesGridPane,
+            final AbstractCacheableSimpleAPIService<TimeStamp> apiService)
+    {
         return null;
     }
 }

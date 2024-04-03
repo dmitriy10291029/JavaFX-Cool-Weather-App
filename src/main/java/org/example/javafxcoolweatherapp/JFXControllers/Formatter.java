@@ -31,4 +31,16 @@ public class Formatter {
             return hour + ":00";
         }
     }
+
+    public static String formatPressure(int pressure) {
+        return String.valueOf(pressure) + " HPa";
+    }
+
+    public static String formatHumidity(int humidity) {
+        return String.valueOf(humidity) + "%";
+    }
+
+    public static String formatWindSpeed(double speed) {
+        return String.valueOf(speed) + " m/s";
+    }
 }
