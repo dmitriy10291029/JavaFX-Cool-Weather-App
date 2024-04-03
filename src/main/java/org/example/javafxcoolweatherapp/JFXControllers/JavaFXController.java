@@ -1,7 +1,6 @@
 package org.example.javafxcoolweatherapp.JFXControllers;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -11,52 +10,52 @@ import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public final class JavaFXController {
+    final private static String APIKey = "5444a50a846c6b05227cf5d443fa903c";
+
+    final private ThreeHourForecastAPIService threeHourForecastAPIService
+            = new ThreeHourForecastAPIService(APIKey, new GeoAPIService(APIKey));
+
     @FXML
-    private void onCitySearchButtonClick() {
-        String APIKey = "";
+    private GridPane hourlyDetails;
+    private ArrayList<HourlyTableRow> hourlyNodeTable;
+
+    @FXML
+    private GridPane detailsTable;
+    private ArrayList<DetailsTableRow> detailsNodeTable;
+
+    @FXML
+    private GridPane recentCitiesTable;
+    private ArrayList<RecentCitiesTableRow> recentCitiesNodeTable;
+
+    @FXML
+    public void onCitySearchButtonClick() {
         try {
+            setDataThreeHour(
+                    threeHourForecastAPIService.getDataByURL(cityNameField.getText()));
             errorLabel.setText("");
-            GeoAPIService geoAPI = new GeoAPIService(APIKey);
-
-            ThreeHourForecastAPIService APIService =
-                    new ThreeHourForecastAPIService(APIKey, geoAPI);
-
-            setDataThreeHour(APIService.getDataByURL(cityNameField.getText()));
 
         } catch (IOException e) {
             errorLabel.setText(e.getMessage());
         }
     }
 
-    private void setDataThreeHour(final ThreeHourForecast threeHourForecast) {
-        setCurrentData(threeHourForecast.getTimeStamp(0));
-        setDownPaneDay1Data(threeHourForecast);
-        setDownPaneDay2Data(threeHourForecast);
-        setDownPaneDay3Data(threeHourForecast);
-        setDownPaneDay4Data(threeHourForecast);
-        setDownPaneDay5Data(threeHourForecast);
-    }
-
     private void setCurrentData(final TimeStamp currentTimeStamp) {
-        cityName.setText(cityNameField.getText());
+        cityName.setText(cityNameField.getText().toUpperCase());
 
-        temp.setText(formatTemp(
+        temp.setText(Formatter.formatTemp(
                 currentTimeStamp.getTempCelsius()));
 
-        feelsLike.setText("Feels like: " + formatTemp(
+        feelsLike.setText("Feels like: " + Formatter.formatTemp(
                 currentTimeStamp.getFeelsLikeCelsius()));
 
         weatherDescription.setText(
                 currentTimeStamp.getWeatherDescription());
 
         updateDate.setText(
-                getDateOfThreeHour(currentTimeStamp));
+                Formatter.getDateOfThreeHour(currentTimeStamp));
     }
 
     private double getAvgTempForThreeHour(int day, final ThreeHourForecast threeHourForecast) {
@@ -68,78 +67,67 @@ public final class JavaFXController {
         return tempSum / 8;
     }
 
-    private String formatTemp(double temp) {
-        long roundAvg = Math.round(temp);
-
-        return (roundAvg > 0 ? "+" : "") + roundAvg + "°";
+    private void fillHourlyByThreeHour(final ThreeHourForecast threeHourForecast) {
+        if (hourlyNodeTable == null) {
+            hourlyNodeTable = TableAbstractFactory.createHourlyTable(hourlyDetails);
+        }
+        for (int row = 0; row < 8; row++) {
+            hourlyNodeTable.get(row).getTemp().setText(Formatter.formatTemp(
+                    threeHourForecast.getTimeStamp(row * 3, 0).getTempCelsius()));
+        }
     }
 
-    private String getDateOfThreeHour(final TimeStamp timeStamp) {
-        LocalDate date = LocalDate.ofInstant(Instant.ofEpochSecond(
-                timeStamp.getForecastTimeUnixUTC()),
-                ZoneId.systemDefault()
-        );
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
+    private void setDataThreeHour(final ThreeHourForecast threeHourForecast) {
+        setCurrentData(threeHourForecast.getTimeStamp(0));
 
-        return formatter.format(date);
+        fillHourlyByThreeHour(threeHourForecast);
+
+        setDownPaneDay1Data(threeHourForecast);
+        setDownPaneDay2Data(threeHourForecast);
+        setDownPaneDay3Data(threeHourForecast);
+        setDownPaneDay4Data(threeHourForecast);
+        setDownPaneDay5Data(threeHourForecast);
     }
 
     private void setDownPaneDay1Data(final ThreeHourForecast threeHourForecast) {
         int day = 0;
-        day1Date.setText(getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day1Temp.setText(formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
+        day1Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
+        day1Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day1Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-        day1Temp.setAlignment(Pos.CENTER);
-        day1Date.setAlignment(Pos.CENTER);
-        day1Desc.setAlignment(Pos.CENTER);
     }
 
     private void setDownPaneDay2Data(final ThreeHourForecast threeHourForecast) {
         int day = 1;
-        day2Date.setText(getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day2Temp.setText(formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
+        day2Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
+        day2Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day2Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-        day2Temp.setAlignment(Pos.CENTER);
-        day2Date.setAlignment(Pos.CENTER);
-        day2Desc.setAlignment(Pos.CENTER);
     }
 
     private void setDownPaneDay3Data(final ThreeHourForecast threeHourForecast) {
         int day = 2;
-        day3Date.setText(getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day3Temp.setText(formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
+        day3Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
+        day3Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day3Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-        day3Temp.setAlignment(Pos.CENTER);
-        day3Date.setAlignment(Pos.CENTER);
-        day3Desc.setAlignment(Pos.CENTER);
     }
 
     private void setDownPaneDay4Data(final ThreeHourForecast threeHourForecast) {
         int day = 3;
-        day4Date.setText(getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day4Temp.setText(formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
+        day4Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
+        day4Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day4Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-        day4Temp.setAlignment(Pos.CENTER);
-        day4Date.setAlignment(Pos.CENTER);
-        day4Desc.setAlignment(Pos.CENTER);
     }
 
     private void setDownPaneDay5Data(final ThreeHourForecast threeHourForecast) {
         int day = 4;
-        day5Date.setText(getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day5Temp.setText(formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
+        day5Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
+        day5Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day5Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-        day5Temp.setAlignment(Pos.CENTER);
-        day5Date.setAlignment(Pos.CENTER);
-        day5Desc.setAlignment(Pos.CENTER);
     }
 
     @FXML
     private TextField cityNameField;
     @FXML
     private Label errorLabel;
-    @FXML
-    private GridPane recentCitiesTable;
 
     @FXML
     private Label day1Date;
@@ -182,9 +170,4 @@ public final class JavaFXController {
     private Label weatherDescription;
     @FXML
     private Label updateDate;
-
-    @FXML
-    private GridPane detailsTable;
-    @FXML
-    private GridPane hourlyDetails;
 }
