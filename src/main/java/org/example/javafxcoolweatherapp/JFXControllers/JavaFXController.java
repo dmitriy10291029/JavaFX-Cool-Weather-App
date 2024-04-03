@@ -35,8 +35,9 @@ public final class JavaFXController {
     @FXML
     public void onCitySearchButtonClick() {
         try {
-            setDataThreeHour(
-                    threeHourForecastAPIService.getDataByURL(cityNameField.getText()));
+            String city = cityNameField.getText();
+
+            setDataThreeHour(threeHourForecastAPIService.getDataByURL(cityNameField.getText()));
             errorLabel.setText("");
 
         } catch (IOException e) {
@@ -76,9 +77,28 @@ public final class JavaFXController {
                 tableRow.getDelete().setOpacity(0.0);
                 tableRow.getLoad().setOpacity(0.0);
             } else {
-                tableRow.getName().setText(citiesSortedList.get(row));
+                String city = citiesSortedList.get(row);
+                tableRow.getName().setText(city);
+
+
                 tableRow.getDelete().setOpacity(1.0);
+                tableRow.getDelete().setOnAction(actionEvent -> {
+                        threeHourForecastAPIService.deleteRecent(city);
+                        updateRecentCities(threeHourForecast);
+                    }
+                );
+
                 tableRow.getLoad().setOpacity(1.0);
+                tableRow.getLoad().setOnAction(actionEvent -> {
+                    try {
+                        setDataThreeHour(threeHourForecastAPIService.getCachedData(city));
+                        cityName.setText(city);
+
+                    } catch (IOException e) {
+                        threeHourForecastAPIService.deleteRecent(city);
+                        updateRecentCities(threeHourForecast);
+                    }
+                });
             }
         }
     }
