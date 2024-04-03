@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class SimpleURLManager implements URLManager {
+public class JavaNetBasedURLM implements URLManager {
     public String getData(String urlAddress) throws IOException {
         StringBuilder content = new StringBuilder();
 

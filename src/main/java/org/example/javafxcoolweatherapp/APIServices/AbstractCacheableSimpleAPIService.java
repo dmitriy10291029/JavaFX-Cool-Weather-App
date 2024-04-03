@@ -2,7 +2,7 @@ package org.example.javafxcoolweatherapp.APIServices;
 
 import org.example.javafxcoolweatherapp.Files.FileManager;
 import org.example.javafxcoolweatherapp.Files.JavaNIOBasedFM;
-import org.example.javafxcoolweatherapp.URL.SimpleURLManager;
+import org.example.javafxcoolweatherapp.URL.JavaNetBasedURLM;
 import org.example.javafxcoolweatherapp.URL.URLManager;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
 
     public AbstractCacheableSimpleAPIService(String APIKey, String cacheDir) {
         this.APIKey = APIKey;
-        urlManager = new SimpleURLManager();
+        urlManager = new JavaNetBasedURLM();
         try {
             fileManager = new JavaNIOBasedFM(cacheDir);
             cacheAccess = true;
