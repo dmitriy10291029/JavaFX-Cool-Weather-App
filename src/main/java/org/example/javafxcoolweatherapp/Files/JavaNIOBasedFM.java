@@ -9,15 +9,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SimpleFileManager implements FileManager {
+public class JavaNIOBasedFM implements FileManager {
     private static final String BASE_WORKING_DIR = ".";
     private final Path workingDir;
 
-    public SimpleFileManager() throws IOException {
-        this(null);
-    }
-
-    public SimpleFileManager(String workingDirName) throws IOException {
+    public JavaNIOBasedFM(String workingDirName) throws IOException {
         if (workingDirName == null) {
             workingDir = Paths.get(BASE_WORKING_DIR);
         } else {
@@ -63,6 +59,11 @@ public class SimpleFileManager implements FileManager {
         } catch (IOException e) {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public long getLastModified(String fileName) {
+        return getFile(fileName).toFile().lastModified();
     }
 
     private Path getFile(String fileName) {

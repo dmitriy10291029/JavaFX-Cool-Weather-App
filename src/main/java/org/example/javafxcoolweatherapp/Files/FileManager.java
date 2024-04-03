@@ -11,4 +11,6 @@ public interface FileManager {
     boolean deleteFile(String fileName);
 
     List<String> getFilesList();
+
+    long getLastModified(String fileName);
 }
