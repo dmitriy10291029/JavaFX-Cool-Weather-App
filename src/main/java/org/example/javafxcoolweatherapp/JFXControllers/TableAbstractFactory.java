@@ -27,7 +27,23 @@ public final class TableAbstractFactory {
     }
 
     public static ArrayList<DetailsTableRow> createDetailsTable(final GridPane detailsGridPane) {
-        return null;
+        Font font = new Font(20.0);
+        ArrayList<DetailsTableRow> table = new ArrayList<>();
+        String[] paramNameList = {"Temperature", "Feels like", "Pressure", "Humidity", "Wind speed"};
+
+        for (int row = 0; row < paramNameList.length; row++) {
+            Label param = new Label(paramNameList[row] + ": ");
+            Label value = new Label();
+
+            param.setFont(font);
+            value.setFont(font);
+
+            detailsGridPane.add(param, 0, row);
+            detailsGridPane.add(value, 1, row);
+            table.add(new DetailsTableRow(param, value));
+        }
+
+        return table;
     }
 
     public static ArrayList<RecentCitiesTableRow> createRecentCitiesTable(final GridPane recentCitiesGridPane) {

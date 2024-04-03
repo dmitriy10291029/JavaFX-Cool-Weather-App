@@ -77,6 +77,26 @@ public final class JavaFXController {
         }
     }
 
+    private void fillDetailsByThreeHour(final ThreeHourForecast threeHourForecast) {
+        if (detailsNodeTable == null) {
+            detailsNodeTable = TableAbstractFactory.createDetailsTable(detailsTable);
+        }
+
+        detailsNodeTable.get(0).getValue().setText(Formatter.formatTemp(
+                threeHourForecast.getTimeStamp(0).getTempCelsius()));
+
+        detailsNodeTable.get(1).getValue().setText(Formatter.formatTemp(
+                threeHourForecast.getTimeStamp(0).getFeelsLikeCelsius()));
+
+        detailsNodeTable.get(1).getValue().setText(Formatter.formatTemp(
+                threeHourForecast.getTimeStamp(0).getFeelsLikeCelsius()));
+
+        for (int row = 0; row < 8; row++) {
+            hourlyNodeTable.get(row).getTemp().setText(Formatter.formatTemp(
+                    threeHourForecast.getTimeStamp(row * 3, 0).getTempCelsius()));
+        }
+    }
+
     private void setDataThreeHour(final ThreeHourForecast threeHourForecast) {
         setCurrentData(threeHourForecast.getTimeStamp(0));
 
