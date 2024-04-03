@@ -2,6 +2,7 @@ package org.example.javafxcoolweatherapp.DataObjects;
 
 public final class TimeStampFactory {
     private long forecastTimeUnixUTC;
+    private double tempCelsius;
     private double feelsLikeCelsius;
     private int pressureHPa;
     private int humidityPercents;
@@ -11,6 +12,7 @@ public final class TimeStampFactory {
     public TimeStamp create() {
         return new TimeStamp(
                 forecastTimeUnixUTC,
+                tempCelsius,
                 feelsLikeCelsius,
                 pressureHPa,
                 humidityPercents,
@@ -46,6 +48,11 @@ public final class TimeStampFactory {
 
     public TimeStampFactory setWindSpeedMetersSec(double windSpeedMetersSec) {
         this.windSpeedMetersSec = windSpeedMetersSec;
+        return this;
+    }
+
+    public TimeStampFactory setTempCelsius(double tempCelsius) {
+        this.tempCelsius = tempCelsius;
         return this;
     }
 }

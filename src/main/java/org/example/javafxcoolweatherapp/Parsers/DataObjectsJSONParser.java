@@ -25,6 +25,17 @@ public class DataObjectsJSONParser {
         }
     }
 
+    private static double longToDoubleIfNeeded(Object number) {
+        if (number instanceof Double) {
+            return (double) number;
+        }
+        if (number instanceof Long) {
+            return ((Long) number).doubleValue();
+        } else {
+            return 0.0;
+        }
+    }
+
     public static GeoData parseGeoData(String data) throws IOException {
         return handleParseExceptions(data, data1 -> {
             JSONArray citiesArray = (JSONArray) parser.parse(data1);
@@ -48,13 +59,16 @@ public class DataObjectsJSONParser {
                 JSONObject weather = (JSONObject)((JSONArray) timeStamp.get("weather")).get(0);
                 JSONObject wind = (JSONObject) timeStamp.get("wind");
 
+
+
                 tsList.add(timeStampFactory
                         .setForecastTimeUnixUTC((long) timeStamp.get("dt"))
-                        .setFeelsLikeCelsius((double) main.get("feels_like"))
+                        .setTempCelsius(longToDoubleIfNeeded(main.get("temp")))
+                        .setFeelsLikeCelsius(longToDoubleIfNeeded(main.get("feels_like")))
                         .setPressureHPa((int) (long) main.get("pressure"))
                         .setHumidityPercents((int) (long) main.get("humidity"))
                         .setWeatherDescription((String) weather.get("description"))
-                        .setFeelsLikeCelsius((double) wind.get("speed"))
+                        .setWindSpeedMetersSec(longToDoubleIfNeeded(wind.get("speed")))
                         .create()
                 );
             }

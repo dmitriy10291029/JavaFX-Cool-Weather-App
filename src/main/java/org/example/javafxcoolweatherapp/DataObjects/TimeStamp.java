@@ -2,6 +2,7 @@ package org.example.javafxcoolweatherapp.DataObjects;
 
 public class TimeStamp {
     private final long forecastTimeUnixUTC;
+    private final double tempCelsius;
     private final double feelsLikeCelsius;
     private final int pressureHPa;
     private final int humidityPercents;
@@ -9,6 +10,7 @@ public class TimeStamp {
     private final double windSpeedMetersSec;
 
     public TimeStamp(long forecastTimeUnixUTC,
+                     double tempCelsius,
                      double feelsLikeCelsius,
                      int pressureHPa,
                      int humidityPercents,
@@ -16,6 +18,7 @@ public class TimeStamp {
                      double windSpeedMetersSec)
     {
         this.forecastTimeUnixUTC = forecastTimeUnixUTC;
+        this.tempCelsius = tempCelsius;
         this.feelsLikeCelsius = feelsLikeCelsius;
         this.pressureHPa = pressureHPa;
         this.humidityPercents = humidityPercents;
@@ -25,6 +28,10 @@ public class TimeStamp {
 
     public long getForecastTimeUnixUTC() {
         return forecastTimeUnixUTC;
+    }
+
+    public double getTempCelsius() {
+        return tempCelsius;
     }
 
     public double getFeelsLikeCelsius() {
@@ -52,6 +59,7 @@ public class TimeStamp {
         String divider = "; ";
         return "{" +
                 forecastTimeUnixUTC + divider +
+                tempCelsius + divider +
                 feelsLikeCelsius + divider +
                 pressureHPa + divider +
                 humidityPercents + divider +

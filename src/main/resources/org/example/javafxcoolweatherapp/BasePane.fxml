@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="basePane" maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: ddd;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javafxcoolweatherapp.JFXControllers.JavaFXController">
+<BorderPane maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: ddd;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javafxcoolweatherapp.JFXControllers.JavaFXController">
    <left>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="200.0" spacing="5.0" style="-fx-background-color: ddd;" BorderPane.alignment="CENTER">
@@ -39,7 +39,7 @@
                </font>
             </Button>
          </HBox>
-         <Label fx:id="errorLabel" disable="true" text="API Service don't answer" textFill="#da0000">
+         <Label fx:id="errorLabel" textFill="#da0000">
             <font>
                <Font name="System Bold Italic" size="12.0"/>
             </font>
@@ -73,7 +73,7 @@
       <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="160.0" prefWidth="800.0" spacing="5.0" style="-fx-background-color: ddd;"
             BorderPane.alignment="TOP_CENTER">
-         <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+         <VBox fx:id="day1Box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: fff; -fx-background-radius: 10;">
             <Label fx:id="day1Date" text="Date 1">
                <font>
@@ -82,7 +82,7 @@
             </Label>
             <Label fx:id="day1Temp" prefHeight="64.0" prefWidth="103.0" text="+10">
                <font>
-                  <Font name="System Bold" size="60.0"/>
+                  <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
             <Label fx:id="day1Desc" prefWidth="134.0" text="Weather description">
@@ -100,7 +100,7 @@
             </Label>
             <Label fx:id="day2Temp" prefHeight="64.0" prefWidth="103.0" text="+10">
                <font>
-                  <Font name="System Bold" size="60.0"/>
+                  <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
             <Label fx:id="day2Desc" prefWidth="134.0" text="Weather description">
@@ -118,7 +118,7 @@
             </Label>
             <Label fx:id="day3Temp" prefHeight="64.0" prefWidth="103.0" text="+10">
                <font>
-                  <Font name="System Bold" size="60.0"/>
+                  <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
             <Label fx:id="day3Desc" prefWidth="134.0" text="Weather description">
@@ -136,7 +136,7 @@
             </Label>
             <Label fx:id="day4Temp" prefHeight="64.0" prefWidth="103.0" text="+10">
                <font>
-                  <Font name="System Bold" size="60.0"/>
+                  <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
             <Label fx:id="day4Desc" prefWidth="134.0" text="Weather description">
@@ -152,9 +152,9 @@
                   <Font name="System Bold" size="24.0"/>
                </font>
             </Label>
-            <Label fx:id="day5Temp" prefHeight="64.0" prefWidth="103.0" text="+10">
+            <Label fx:id="day5Temp" prefHeight="64.0" prefWidth="103.0" text="+555">
                <font>
-                  <Font name="System Bold" size="60.0"/>
+                  <Font name="System Bold" size="40.0"/>
                </font>
             </Label>
             <Label fx:id="day5Desc" prefWidth="134.0" text="Weather description">
