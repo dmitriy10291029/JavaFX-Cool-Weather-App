@@ -154,7 +154,7 @@ public final class JavaFXController {
             tempSum += forecast.getTimeStamp(i, day).getTempCelsius();
         }
 
-        return tempSum / 8;
+        return tempSum / (24 / forecast.getStampsPerDay());
     }
 
     private void updateHourly(final ThreeHourForecast threeHourForecast) {
