@@ -12,6 +12,8 @@ import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public final class JavaFXController {
     final private static String APIKey = "5444a50a846c6b05227cf5d443fa903c";
@@ -57,7 +59,28 @@ public final class JavaFXController {
     }
 
     private void updateRecentCities(ThreeHourForecast threeHourForecast) {
+        if (recentCitiesNodeTable == null) {
+            recentCitiesNodeTable = TableAbstractFactory.createRecentCitiesTable(recentCitiesTable);
+        }
 
+        List<String> citiesSortedList = threeHourForecastAPIService.getRecentList();
+        citiesSortedList.sort(Comparator
+                .comparingLong(threeHourForecastAPIService::getLastModified)
+                .reversed()
+        );
+
+        for (int row = 0; row < TableAbstractFactory.MAX_RECENT_CITIES_AMOUNT; row++) {
+            RecentCitiesTableRow tableRow = recentCitiesNodeTable.get(row);
+            if (row >= citiesSortedList.size()) {
+                tableRow.getName().setText("");
+                tableRow.getDelete().setOpacity(0.0);
+                tableRow.getLoad().setOpacity(0.0);
+            } else {
+                tableRow.getName().setText(citiesSortedList.get(row));
+                tableRow.getDelete().setOpacity(1.0);
+                tableRow.getLoad().setOpacity(1.0);
+            }
+        }
     }
 
     /*

@@ -1,16 +1,15 @@
 package org.example.javafxcoolweatherapp.JFXControllers;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPIService;
-import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public final class TableAbstractFactory {
+    public static int MAX_RECENT_CITIES_AMOUNT = 6;
+
     public static ArrayList<HourlyTableRow> createHourlyTable(final GridPane hourlyGridPane) {
         Font font = new Font(18.0);
         ArrayList<HourlyTableRow> table = new ArrayList<>();
@@ -51,9 +50,29 @@ public final class TableAbstractFactory {
     }
 
     public static ArrayList<RecentCitiesTableRow> createRecentCitiesTable(
-            final GridPane recentCitiesGridPane,
-            final AbstractCacheableSimpleAPIService<TimeStamp> apiService)
+            final GridPane recentCitiesGridPane)
     {
-        return null;
+        Font font = new Font(12.0);
+        ArrayList<RecentCitiesTableRow> table = new ArrayList<>();
+
+        for (int row = 0; row < MAX_RECENT_CITIES_AMOUNT; row++) {
+            Label city = new Label();
+            Button delete = new Button("X");
+            Button load = new Button(">");
+
+            city.setFont(font);
+            delete.setFont(font);
+            delete.setOpacity(0.0);
+            load.setFont(font);
+            load.setOpacity(0.0);
+
+            recentCitiesGridPane.add(city, 0, row);
+            recentCitiesGridPane.add(load, 1, row);
+            recentCitiesGridPane.add(delete, 2, row);
+
+            table.add(new RecentCitiesTableRow(city, delete, load));
+        }
+
+        return table;
     }
 }

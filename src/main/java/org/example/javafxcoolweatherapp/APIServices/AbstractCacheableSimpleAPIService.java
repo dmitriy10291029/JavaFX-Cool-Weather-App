@@ -77,9 +77,9 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
         }
     }
 
-    public DataObject getCachedData(String parameter) throws IOException {
-        if (cacheAccess && fileManager.getFilesList().contains(parameter)) {
-            return parseJSONResponse(fileManager.readData(parameter));
+    public DataObject getCachedData(String city) throws IOException {
+        if (cacheAccess && fileManager.getFilesList().contains(city)) {
+            return parseJSONResponse(fileManager.readData(city));
         } else {
             throw new IOException("Can not get data from cache.");
         }
@@ -89,7 +89,11 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
         return fileManager.getFilesList();
     }
 
-    public boolean deleteRecent(String parameter) {
-        return fileManager.deleteFile(parameter);
+    public boolean deleteRecent(String city) {
+        return fileManager.deleteFile(city);
+    }
+
+    public long getLastModified(String city) {
+        return fileManager.getLastModified(city);
     }
 }
