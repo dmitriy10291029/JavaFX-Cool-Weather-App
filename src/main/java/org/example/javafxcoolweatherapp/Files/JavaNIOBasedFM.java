@@ -63,7 +63,7 @@ public class JavaNIOBasedFM implements FileManager {
 
     @Override
     public long getLastModified(String fileName) {
-        return getFile(fileName).toFile().lastModified();
+        return getFile(fileName).toFile().lastModified() / 1000;
     }
 
     private Path getFile(String fileName) {

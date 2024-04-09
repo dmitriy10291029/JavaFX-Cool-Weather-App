@@ -10,13 +10,13 @@ import org.example.javafxcoolweatherapp.URL.URLManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.List;
 
 public abstract class AbstractCacheableSimpleAPIService<DataObject>
         implements SimpleAPIService<DataObject, String> {
 
-    protected static final long FORECAST_UPDATE_PERIOD = 7200; // 2 hours;
+    protected static final long FORECAST_UPDATE_SECONDS_PERIOD = 3600;
 
     protected final String APIKey;
     protected final URLManager urlManager;
@@ -60,10 +60,16 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
     public DataObject getData(String city) throws IOException {
         try {
             if (hasCachedData(city)) {
-
                 long lastUpdate = getLastModified(city);
-                long currentTime = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-                if (currentTime - lastUpdate < FORECAST_UPDATE_PERIOD) {
+                var now = LocalDateTime.now();
+                long currentTime = now.toEpochSecond(ZoneId
+                        .systemDefault()
+                        .getRules()
+                        .getOffset(now)
+                );
+
+                System.out.println(currentTime + " " + lastUpdate + " " + (currentTime - lastUpdate));
+                if (currentTime - lastUpdate < FORECAST_UPDATE_SECONDS_PERIOD) {
                     return getCachedData(city);
 
                 } else {
