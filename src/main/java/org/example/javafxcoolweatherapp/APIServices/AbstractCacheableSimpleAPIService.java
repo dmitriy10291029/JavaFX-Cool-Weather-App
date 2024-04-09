@@ -68,7 +68,6 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
                         .getOffset(now)
                 );
 
-                System.out.println(currentTime + " " + lastUpdate + " " + (currentTime - lastUpdate));
                 if (currentTime - lastUpdate < FORECAST_UPDATE_SECONDS_PERIOD) {
                     return getCachedData(city);
 

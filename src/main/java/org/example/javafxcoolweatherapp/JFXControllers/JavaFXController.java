@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import org.example.javafxcoolweatherapp.APIServices.Exceptions.CacheException;
 import org.example.javafxcoolweatherapp.APIServices.OpenWeather.GeoAPIService;
 import org.example.javafxcoolweatherapp.APIServices.OpenWeather.ThreeHourForecastAPIService;
 import org.example.javafxcoolweatherapp.DataObjects.AbstractForecast;
@@ -11,6 +12,7 @@ import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,14 +36,23 @@ public final class JavaFXController {
 
     @FXML
     public void onCitySearchButtonClick() {
-        try {
-            String city = cityNameField.getText();
+        String city = cityNameField.getText();
 
+        try {
             showData(threeHourForecastAPIService.getData(city));
             errorLabel.setText("");
 
         } catch (IOException e) {
-            errorLabel.setText(e.getMessage());
+            if (threeHourForecastAPIService.hasCachedData(city)) {
+                try {
+                    showData(threeHourForecastAPIService.getCachedData(city));
+                    errorLabel.setText("Can't get actual data.");
+
+                } catch (CacheException ce) {
+                    errorLabel.setText(e.getMessage());
+                }
+            }
+            errorLabel.setText("Can't get any data.");
         }
     }
 
@@ -125,9 +136,6 @@ public final class JavaFXController {
 
         weatherDescription.setText(
                 currentTimeStamp.getWeatherDescription());
-
-        updateDate.setText(
-                Formatter.getDateOfThreeHour(currentTimeStamp));
     }
 
 
