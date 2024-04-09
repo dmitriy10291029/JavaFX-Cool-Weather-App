@@ -1,6 +1,7 @@
 package org.example.javafxcoolweatherapp.APIServices.OpenWeather;
 
 import org.example.javafxcoolweatherapp.APIServices.AbstractCacheableSimpleAPIService;
+import org.example.javafxcoolweatherapp.APIServices.Exceptions.URLException;
 import org.example.javafxcoolweatherapp.DataObjects.GeoData;
 import org.example.javafxcoolweatherapp.Parsers.DataObjectsJSONParser;
 
@@ -12,7 +13,7 @@ public class GeoAPIService extends AbstractCacheableSimpleAPIService<GeoData> {
     }
 
     @Override
-    protected String getResponseByURL(String parameter) throws IOException {
+    protected String getResponseByURLImpl(String parameter) throws IOException {
         return urlManager.getData(String.format(
                 "http://api.openweathermap.org/geo/1.0/direct?q=%s&appid=%s", parameter, APIKey
         ));

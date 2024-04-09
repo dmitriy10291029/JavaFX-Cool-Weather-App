@@ -1,15 +1,22 @@
 package org.example.javafxcoolweatherapp.APIServices;
 
+import org.example.javafxcoolweatherapp.APIServices.Exceptions.CacheException;
+import org.example.javafxcoolweatherapp.APIServices.Exceptions.ParseException;
+import org.example.javafxcoolweatherapp.APIServices.Exceptions.URLException;
 import org.example.javafxcoolweatherapp.Files.FileManager;
 import org.example.javafxcoolweatherapp.Files.JavaNIOBasedFM;
 import org.example.javafxcoolweatherapp.URL.JavaNetBasedURLM;
 import org.example.javafxcoolweatherapp.URL.URLManager;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 public abstract class AbstractCacheableSimpleAPIService<DataObject>
         implements SimpleAPIService<DataObject, String> {
+
+    protected static final long FORECAST_UPDATE_PERIOD = 7200; // 2 hours;
 
     protected final String APIKey;
     protected final URLManager urlManager;
@@ -28,43 +35,59 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
         }
     }
 
-    abstract protected String getResponseByURL(String parameter) throws IOException;
+    abstract protected String getResponseByURLImpl(String parameter) throws Exception;
 
-    abstract protected DataObject parseJSONResponseImpl(String data) throws IOException;
+    abstract protected DataObject parseJSONResponseImpl(String data) throws Exception;
 
-    public DataObject parseJSONResponse(String data) throws IOException {
+    protected String getResponseByURL(String parameter) throws URLException {
+        try {
+            return getResponseByURLImpl(parameter);
+
+        } catch (Exception e) {
+            throw new URLException("URL did not response.", e);
+        }
+    }
+
+    public DataObject parseJSONResponse(String data) throws ParseException {
         try {
             return parseJSONResponseImpl(data);
         } catch (Exception e) {
-            throw new IOException("Exception by parsing data.", e);
+            throw new ParseException("Exception by parsing data.", e);
         }
     }
 
     @Override
-    public DataObject getData(String parameter) throws IOException {
+    public DataObject getData(String city) throws IOException {
         try {
-            return getCachedData(parameter);
+            if (hasCachedData(city)) {
 
-        } catch (IOException cacheEx) {
-            try {
-                return getDataByURL(parameter);
+                long lastUpdate = getLastModified(city);
+                long currentTime = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+                if (currentTime - lastUpdate < FORECAST_UPDATE_PERIOD) {
+                    return getCachedData(city);
 
-            } catch (IOException urlEx) {
-                IOException e = new IOException("API Service did not get data from cache and url.", urlEx);
-                e.addSuppressed(cacheEx);
-                throw e;
+                } else {
+                    return getDataByURL(city);
+                }
             }
+            return getDataByURL(city);
+
+        } catch (CacheException e) {
+            return getDataByURL(city);
+
+        } catch (IOException e) {
+            throw new IOException("API Service did not get data from cache and url.", e);
         }
     }
 
-    public DataObject getDataByURL(String parameter) throws IOException {
+    public DataObject getDataByURL(String parameter) throws URLException {
         try {
             String response = getResponseByURL(parameter);
             DataObject newData;
-
-            try { newData = parseJSONResponse(response);
-            } catch (IOException e) {
-                throw new IOException("Data was got, but it can not be parsed.", e);
+            try {
+                newData = parseJSONResponse(response);
+            } catch (ParseException e) {
+                throw new URLException("Data was got, but it can not be parsed.", e);
             }
 
             if (cacheAccess) {
@@ -76,19 +99,27 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
             return newData;
 
         } catch (IOException ioe) {
-            throw new IOException("API Service did not get data from URL Manager", ioe);
+            throw new URLException("API Service did not get data from URL Manager", ioe);
         }
     }
 
-    public DataObject getCachedData(String city) throws IOException {
+    public DataObject getCachedData(String city) throws CacheException {
         if (!hasCachedData(city)) {
-            throw new IOException("Can not get data from cache.");
+            throw new CacheException("Can not get data from cache.");
         }
-        return parseJSONResponse(fileManager.readData(city));
+        try {
+            return parseJSONResponse(fileManager.readData(city));
+        } catch (IOException e) {
+            throw new CacheException("Cache data parsing error", e);
+        }
     }
 
     public boolean hasCachedData(String city) {
         return cacheAccess && fileManager.getFilesList().contains(city);
+    }
+
+    public boolean isCacheAccess() {
+        return cacheAccess;
     }
 
     public List<String> getRecentList() {

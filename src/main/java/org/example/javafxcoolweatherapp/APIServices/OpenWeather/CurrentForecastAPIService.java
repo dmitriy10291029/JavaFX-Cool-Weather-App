@@ -16,7 +16,7 @@ public class CurrentForecastAPIService extends AbstractCacheableSimpleAPIService
     }
 
     @Override
-    protected String getResponseByURL(String parameter) throws IOException {
+    protected String getResponseByURLImpl(String parameter) throws IOException {
         GeoData geoData = geoAPIService.getData(parameter);
         return urlManager.getData(String.format(
                 "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=metric&appid=%s",
