@@ -42,10 +42,12 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
 
     @Override
     public DataObject getData(String parameter) throws IOException {
-        try { return getCachedData(parameter);
+        try {
+            return getCachedData(parameter);
 
         } catch (IOException cacheEx) {
-            try { return getDataByURL(parameter);
+            try {
+                return getDataByURL(parameter);
 
             } catch (IOException urlEx) {
                 IOException e = new IOException("API Service did not get data from cache and url.", urlEx);
@@ -66,7 +68,8 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
             }
 
             if (cacheAccess) {
-                try { fileManager.saveDataToFile(parameter, response);
+                try {
+                    fileManager.saveDataToFile(parameter, response);
                 } catch (IOException ignore) { }
             }
 
@@ -78,11 +81,14 @@ public abstract class AbstractCacheableSimpleAPIService<DataObject>
     }
 
     public DataObject getCachedData(String city) throws IOException {
-        if (cacheAccess && fileManager.getFilesList().contains(city)) {
-            return parseJSONResponse(fileManager.readData(city));
-        } else {
+        if (!hasCachedData(city)) {
             throw new IOException("Can not get data from cache.");
         }
+        return parseJSONResponse(fileManager.readData(city));
+    }
+
+    public boolean hasCachedData(String city) {
+        return cacheAccess && fileManager.getFilesList().contains(city);
     }
 
     public List<String> getRecentList() {
