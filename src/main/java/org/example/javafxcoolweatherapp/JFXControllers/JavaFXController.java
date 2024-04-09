@@ -37,7 +37,7 @@ public final class JavaFXController {
         try {
             String city = cityNameField.getText();
 
-            setDataThreeHour(threeHourForecastAPIService.getDataByURL(cityNameField.getText()));
+            showData(threeHourForecastAPIService.getData(city));
             errorLabel.setText("");
 
         } catch (IOException e) {
@@ -45,21 +45,17 @@ public final class JavaFXController {
         }
     }
 
-    private void setDataThreeHour(final ThreeHourForecast threeHourForecast) {
-        setCurrentData(threeHourForecast.getTimeStamp(0));
+    private void showData(final ThreeHourForecast threeHourForecast) {
+        showCurrentForecast(threeHourForecast.getTimeStamp(0));
 
         updateHourly(threeHourForecast);
         updateDetails(threeHourForecast);
-        updateRecentCities(threeHourForecast);
+        updateRecentCities();
 
-        setDownPaneDay1Data(threeHourForecast);
-        setDownPaneDay2Data(threeHourForecast);
-        setDownPaneDay3Data(threeHourForecast);
-        setDownPaneDay4Data(threeHourForecast);
-        setDownPaneDay5Data(threeHourForecast);
+        showDownPane(threeHourForecast);
     }
 
-    private void updateRecentCities(ThreeHourForecast threeHourForecast) {
+    private void updateRecentCities() {
         if (recentCitiesNodeTable == null) {
             recentCitiesNodeTable = TableAbstractFactory.createRecentCitiesTable(recentCitiesTable);
         }
@@ -84,19 +80,19 @@ public final class JavaFXController {
                 tableRow.getDelete().setOpacity(1.0);
                 tableRow.getDelete().setOnAction(actionEvent -> {
                         threeHourForecastAPIService.deleteRecent(city);
-                        updateRecentCities(threeHourForecast);
+                        updateRecentCities();
                     }
                 );
 
                 tableRow.getLoad().setOpacity(1.0);
                 tableRow.getLoad().setOnAction(actionEvent -> {
                     try {
-                        setDataThreeHour(threeHourForecastAPIService.getCachedData(city));
+                        showData(threeHourForecastAPIService.getCachedData(city));
                         cityName.setText(city);
 
                     } catch (IOException e) {
                         threeHourForecastAPIService.deleteRecent(city);
-                        updateRecentCities(threeHourForecast);
+                        updateRecentCities();
                     }
                 });
             }
@@ -118,7 +114,7 @@ public final class JavaFXController {
     @FXML
     private Label updateDate;
 
-    private void setCurrentData(final TimeStamp currentTimeStamp) {
+    private void showCurrentForecast(final TimeStamp currentTimeStamp) {
         cityName.setText(cityNameField.getText().toUpperCase());
 
         temp.setText(Formatter.formatTemp(
@@ -230,35 +226,43 @@ public final class JavaFXController {
     @FXML
     private Label day5Temp;
 
-    private void setDownPaneDay1Data(final ThreeHourForecast threeHourForecast) {
+    private void showDownPane(final ThreeHourForecast threeHourForecast) {
+        showDownPaneDay1Data(threeHourForecast);
+        showDownPaneDay2Data(threeHourForecast);
+        showDownPaneDay3Data(threeHourForecast);
+        showDownPaneDay4Data(threeHourForecast);
+        showDownPaneDay5Data(threeHourForecast);
+    }
+
+    private void showDownPaneDay1Data(final ThreeHourForecast threeHourForecast) {
         int day = 0;
         day1Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
         day1Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day1Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
     }
 
-    private void setDownPaneDay2Data(final ThreeHourForecast threeHourForecast) {
+    private void showDownPaneDay2Data(final ThreeHourForecast threeHourForecast) {
         int day = 1;
         day2Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
         day2Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day2Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
     }
 
-    private void setDownPaneDay3Data(final ThreeHourForecast threeHourForecast) {
+    private void showDownPaneDay3Data(final ThreeHourForecast threeHourForecast) {
         int day = 2;
         day3Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
         day3Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day3Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
     }
 
-    private void setDownPaneDay4Data(final ThreeHourForecast threeHourForecast) {
+    private void showDownPaneDay4Data(final ThreeHourForecast threeHourForecast) {
         int day = 3;
         day4Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
         day4Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
         day4Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
     }
 
-    private void setDownPaneDay5Data(final ThreeHourForecast threeHourForecast) {
+    private void showDownPaneDay5Data(final ThreeHourForecast threeHourForecast) {
         int day = 4;
         day5Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
         day5Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
