@@ -12,7 +12,6 @@ import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
