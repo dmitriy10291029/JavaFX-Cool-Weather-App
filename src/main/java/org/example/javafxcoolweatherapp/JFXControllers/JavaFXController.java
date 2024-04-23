@@ -71,6 +71,7 @@ public final class JavaFXController {
     public void onCitySearchButtonClick() {
         String city = Formatter.formatCaption(cityNameField.getText());
         showData(city);
+        cityNameField.clear();
     }
 
     private void updateRecentCities() {
