@@ -1,10 +1,9 @@
 package org.example.javafxcoolweatherapp.JFXControllers;
 
+import org.example.javafxcoolweatherapp.DataObjects.AbstractForecast;
 import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class Formatter {
@@ -15,13 +14,19 @@ public class Formatter {
     }
 
     public static String getDateOfThreeHour(final TimeStamp timeStamp) {
-        LocalDate date = LocalDate.ofInstant(Instant.ofEpochSecond(
-                        timeStamp.getForecastTimeUnixUTC()),
-                ZoneId.systemDefault()
-        );
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
+        var date = Instant.ofEpochSecond(
+                timeStamp.getForecastTimeUnixUTC()).atZone(ZoneId.systemDefault());
+        return date.format(DateTimeFormatter.ofPattern("dd.MM"));
+    }
 
-        return formatter.format(date);
+    public static String formatDateTime(long unixTime) {
+        ZonedDateTime time = Instant.ofEpochSecond(unixTime).atZone(ZoneId.systemDefault());
+
+        return time.format(DateTimeFormatter.ofPattern("dd.MM   HH:mm"));
+    }
+
+    public static String formatDateTime(LocalDateTime time) {
+        return time.format(DateTimeFormatter.ofPattern("dd.MM   HH:mm"));
     }
 
     public static String formatHour(int hour) {
@@ -30,6 +35,12 @@ public class Formatter {
         } else {
             return hour + ":00";
         }
+    }
+
+    public static String formatCaption(String caption) {
+        if (caption.isEmpty()) return caption;
+        return Character.toUpperCase(caption.charAt(0)) +
+                caption.toLowerCase().substring(1);
     }
 
     public static String formatPressure(int pressure) {
@@ -42,5 +53,14 @@ public class Formatter {
 
     public static String formatWindSpeed(double speed) {
         return String.valueOf(speed) + " m/s";
+    }
+
+    public static double getAvgTempForThreeHour(int day, final AbstractForecast forecast) {
+        double tempSum = 0;
+        for (int i = 0; i < 24; i += forecast.getStampsPerDay()) {
+            tempSum += forecast.getTimeStamp(i, day).getTempCelsius();
+        }
+
+        return tempSum / (24 / forecast.getStampsPerDay());
     }
 }

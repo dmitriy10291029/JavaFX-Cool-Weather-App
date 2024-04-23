@@ -7,19 +7,53 @@ import javafx.scene.layout.GridPane;
 import org.example.javafxcoolweatherapp.APIServices.Exceptions.CacheException;
 import org.example.javafxcoolweatherapp.APIServices.OpenWeather.GeoAPIService;
 import org.example.javafxcoolweatherapp.APIServices.OpenWeather.ThreeHourForecastAPIService;
-import org.example.javafxcoolweatherapp.DataObjects.AbstractForecast;
 import org.example.javafxcoolweatherapp.DataObjects.ThreeHourForecast;
 import org.example.javafxcoolweatherapp.DataObjects.TimeStamp;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static org.example.javafxcoolweatherapp.JFXControllers.Formatter.formatDateTime;
+import static org.example.javafxcoolweatherapp.JFXControllers.Formatter.getAvgTempForThreeHour;
+
 public final class JavaFXController {
     final private static String APIKey = "5444a50a846c6b05227cf5d443fa903c";
-    final private ThreeHourForecastAPIService threeHourForecastAPIService
+    final private ThreeHourForecastAPIService serviceAPI
             = new ThreeHourForecastAPIService(APIKey, new GeoAPIService(APIKey));
+
+    public void showData(String city) {
+        try {
+            showData(serviceAPI.getData(city), city);
+            updateDate.setText(formatDateTime(LocalDateTime.now()));
+            errorLabel.setText("");
+
+        } catch (IOException e) {
+            if (serviceAPI.hasCachedData(city)) {
+                try {
+                    showData(serviceAPI.getCachedData(city), city);
+                    updateDate.setText(formatDateTime(serviceAPI.getLastModified(city)));
+                    errorLabel.setText("Can't get actual data.");
+                    return;
+                } catch (CacheException ce) {
+                    errorLabel.setText(e.getMessage());
+                }
+            }
+            errorLabel.setText("Can't get any data.");
+        }
+    }
+
+    private void showData(final ThreeHourForecast threeHourForecast, String cityName) {
+        showCurrentForecast(threeHourForecast.getTimeStamp(0), cityName);
+
+        updateHourly(threeHourForecast);
+        updateDetails(threeHourForecast);
+        updateRecentCities();
+
+        showDownPane(threeHourForecast);
+    }
 
     /*
        LEFT SECTION
@@ -35,34 +69,8 @@ public final class JavaFXController {
 
     @FXML
     public void onCitySearchButtonClick() {
-        String city = cityNameField.getText();
-
-        try {
-            showData(threeHourForecastAPIService.getData(city));
-            errorLabel.setText("");
-
-        } catch (IOException e) {
-            if (threeHourForecastAPIService.hasCachedData(city)) {
-                try {
-                    showData(threeHourForecastAPIService.getCachedData(city));
-                    errorLabel.setText("Can't get actual data.");
-
-                } catch (CacheException ce) {
-                    errorLabel.setText(e.getMessage());
-                }
-            }
-            errorLabel.setText("Can't get any data.");
-        }
-    }
-
-    private void showData(final ThreeHourForecast threeHourForecast) {
-        showCurrentForecast(threeHourForecast.getTimeStamp(0));
-
-        updateHourly(threeHourForecast);
-        updateDetails(threeHourForecast);
-        updateRecentCities();
-
-        showDownPane(threeHourForecast);
+        String city = Formatter.formatCaption(cityNameField.getText());
+        showData(city);
     }
 
     private void updateRecentCities() {
@@ -70,9 +78,9 @@ public final class JavaFXController {
             recentCitiesNodeTable = TableAbstractFactory.createRecentCitiesTable(recentCitiesTable);
         }
 
-        List<String> citiesSortedList = threeHourForecastAPIService.getRecentList();
+        List<String> citiesSortedList = serviceAPI.getRecentList();
         citiesSortedList.sort(Comparator
-                .comparingLong(threeHourForecastAPIService::getLastModified)
+                .comparingLong(serviceAPI::getLastModified)
                 .reversed()
         );
 
@@ -89,21 +97,14 @@ public final class JavaFXController {
 
                 tableRow.getDelete().setOpacity(1.0);
                 tableRow.getDelete().setOnAction(actionEvent -> {
-                        threeHourForecastAPIService.deleteRecent(city);
+                        serviceAPI.deleteRecent(city);
                         updateRecentCities();
                     }
                 );
 
                 tableRow.getLoad().setOpacity(1.0);
                 tableRow.getLoad().setOnAction(actionEvent -> {
-                    try {
-                        showData(threeHourForecastAPIService.getCachedData(city));
-                        cityName.setText(city);
-
-                    } catch (IOException e) {
-                        threeHourForecastAPIService.deleteRecent(city);
-                        updateRecentCities();
-                    }
+                    showData(city);
                 });
             }
         }
@@ -124,8 +125,12 @@ public final class JavaFXController {
     @FXML
     private Label updateDate;
 
-    private void showCurrentForecast(final TimeStamp currentTimeStamp) {
-        cityName.setText(cityNameField.getText().toUpperCase());
+    private void setCurrentCityName(String name) {
+        cityName.setText(Formatter.formatCaption(name));
+    }
+
+    private void showCurrentForecast(final TimeStamp currentTimeStamp, String cityName) {
+        setCurrentCityName(cityName);
 
         temp.setText(Formatter.formatTemp(
                 currentTimeStamp.getTempCelsius()));
@@ -149,16 +154,6 @@ public final class JavaFXController {
     @FXML
     private GridPane detailsTable;
     private ArrayList<DetailsTableRow> detailsNodeTable;
-
-
-    private double getAvgTempForThreeHour(int day, final AbstractForecast forecast) {
-        double tempSum = 0;
-        for (int i = 0; i < 24; i += forecast.getStampsPerDay()) {
-            tempSum += forecast.getTimeStamp(i, day).getTempCelsius();
-        }
-
-        return tempSum / (24 / forecast.getStampsPerDay());
-    }
 
     private void updateHourly(final ThreeHourForecast threeHourForecast) {
         if (hourlyNodeTable == null) {

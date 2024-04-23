@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class AbstractCacheableSimpleAPIService<DataObject>
         implements SimpleAPIService<DataObject, String> {
 
-    protected static final long FORECAST_UPDATE_SECONDS_PERIOD = 3600;
+    protected static final long FORECAST_UPDATE_SECONDS_PERIOD = 3600L;
 
     protected final String APIKey;
     protected final URLManager urlManager;
