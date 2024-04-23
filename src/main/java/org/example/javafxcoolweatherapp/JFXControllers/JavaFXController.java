@@ -203,76 +203,33 @@ public final class JavaFXController {
      */
 
     @FXML
-    private Label day1Date;
+    private Label day1Date, day2Date, day3Date, day4Date, day5Date;
     @FXML
-    private Label day1Temp;
+    private Label day1Temp, day2Temp, day3Temp, day4Temp, day5Temp;
     @FXML
-    private Label day1Desc;
-    @FXML
-    private Label day2Date;
-    @FXML
-    private Label day2Temp;
-    @FXML
-    private Label day2Desc;
-    @FXML
-    private Label day3Date;
-    @FXML
-    private Label day3Desc;
-    @FXML
-    private Label day3Temp;
-    @FXML
-    private Label day4Date;
-    @FXML
-    private Label day4Temp;
-    @FXML
-    private Label day4Desc;
-    @FXML
-    private Label day5Date;
-    @FXML
-    private Label day5Desc;
-    @FXML
-    private Label day5Temp;
+    private Label day1Desc, day2Desc, day3Desc, day4Desc, day5Desc;
+
+    /**
+     *
+     * @param field - Temp | Desc | Date
+     * @param day - [1, 5]
+     */
+    private Label getDownPaneLabel(String field, int day)
+            throws NoSuchFieldException, IllegalAccessException {
+        return (Label) this.getClass().getDeclaredField("day" + day + field).get(this);
+    }
 
     private void showDownPane(final ThreeHourForecast threeHourForecast) {
-        showDownPaneDay1Data(threeHourForecast);
-        showDownPaneDay2Data(threeHourForecast);
-        showDownPaneDay3Data(threeHourForecast);
-        showDownPaneDay4Data(threeHourForecast);
-        showDownPaneDay5Data(threeHourForecast);
-    }
-
-    private void showDownPaneDay1Data(final ThreeHourForecast threeHourForecast) {
-        int day = 0;
-        day1Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day1Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
-        day1Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-    }
-
-    private void showDownPaneDay2Data(final ThreeHourForecast threeHourForecast) {
-        int day = 1;
-        day2Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day2Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
-        day2Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-    }
-
-    private void showDownPaneDay3Data(final ThreeHourForecast threeHourForecast) {
-        int day = 2;
-        day3Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day3Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
-        day3Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-    }
-
-    private void showDownPaneDay4Data(final ThreeHourForecast threeHourForecast) {
-        int day = 3;
-        day4Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day4Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
-        day4Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
-    }
-
-    private void showDownPaneDay5Data(final ThreeHourForecast threeHourForecast) {
-        int day = 4;
-        day5Date.setText(Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, day)));
-        day5Temp.setText(Formatter.formatTemp(getAvgTempForThreeHour(day, threeHourForecast)));
-        day5Desc.setText(threeHourForecast.getTimeStamp(0, day).getWeatherDescription());
+        for (int i = 1; i <= 5; i++) {
+            try {
+                getDownPaneLabel("Date", i).setText(
+                        Formatter.getDateOfThreeHour(threeHourForecast.getTimeStamp(0, i - 1)));
+                getDownPaneLabel("Temp", i).setText(
+                        Formatter.formatTemp(getAvgTempForThreeHour(i - 1, threeHourForecast)));
+                getDownPaneLabel("Desc", i).setText(
+                        threeHourForecast.getTimeStamp(0, i - 1).getWeatherDescription()
+                );
+            } catch (NoSuchFieldException | IllegalAccessException ignored) { }
+        }
     }
 }
