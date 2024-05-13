@@ -4,7 +4,7 @@ module org.example.javafxcoolweatherapp {
     requires json.simple;
 
     opens org.example.javafxcoolweatherapp to javafx.fxml;
-    exports org.example.javafxcoolweatherapp.JFXControllers;
-    opens org.example.javafxcoolweatherapp.JFXControllers to javafx.fxml;
+    exports org.example.javafxcoolweatherapp.view;
+    opens org.example.javafxcoolweatherapp.view to javafx.fxml;
     exports org.example.javafxcoolweatherapp;
 }

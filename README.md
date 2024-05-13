@@ -1,4 +1,4 @@
-# Погодное приложение c UI на JavaFX
+#  Клиент погодного сервиса c UI на JavaFX
 
 ![screenshot](img.png)
 
